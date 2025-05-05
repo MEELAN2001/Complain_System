@@ -1,0 +1,105 @@
+{% extends 'complaints/base.html' %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/dashboard.css">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <h2>Complaint Details</h2>
+        <a href="{% url 'dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+    
+    <div class="complaint-detail">
+        <div class="complaint-header">
+            <h3>{{ complaint.subject }}</h3>
+            <span class="status status-{{ complaint.status }}">{{ complaint.get_status_display }}</span>
+        </div>
+        
+        <div class="complaint-info">
+            <div class="info-group">
+                <label>Category:</label>
+                <span>{{ complaint.get_category_display }}</span>
+            </div>
+            
+            <div class="info-group">
+                <label>Submitted by:</label>
+                <span>{{ complaint.user.get_full_name|default:complaint.user.username }}</span>
+            </div>
+            
+            <div class="info-group">
+                <label>Date:</label>
+                <span>{{ complaint.created_at|date:"F d, Y H:i" }}</span>
+            </div>
+            
+            {% if complaint.location %}
+                <div class="info-group">
+                    <label>Location:</label>
+                    <span>{{ complaint.location }}</span>
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="complaint-description">
+            <h4>Description:</h4>
+            <p>{{ complaint.description }}</p>
+        </div>
+        
+        {% if complaint.image %}
+            <div class="complaint-image">
+                <h4>Attached Image:</h4>
+                <img src="{{ complaint.image.url }}" alt="Complaint Image">
+            </div>
+        {% endif %}
+        
+        {% if is_admin %}
+            <div class="admin-actions">
+                <h4>Update Status:</h4>
+                <form method="post" class="status-form">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {{ status_form.status }}
+                    </div>
+                    <button type="submit" name="status_submit" class="btn btn-primary">Update Status</button>
+                </form>
+            </div>
+        {% endif %}
+        
+        <div class="complaint-updates">
+            <h4>Updates:</h4>
+            
+            {% if updates %}
+                <div class="updates-list">
+                    {% for update in updates %}
+                        <div class="update-item">
+                            <div class="update-header">
+                                <span class="update-by">{{ update.updated_by.get_full_name|default:update.updated_by.username }}</span>
+                                <span class="update-date">{{ update.created_at|date:"F d, Y H:i" }}</span>
+                            </div>
+                            <div class="update-content">
+                                {{ update.comment }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>No updates yet.</p>
+            {% endif %}
+            
+            {% if is_admin %}
+                <div class="add-update">
+                    <h4>Add Update:</h4>
+                    <form method="post" class="update-form">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            {{ update_form.comment }}
+                        </div>
+                        <button type="submit" name="update_submit" class="btn btn-primary">Add Update</button>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

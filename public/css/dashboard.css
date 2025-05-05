@@ -1,0 +1,76 @@
+/* Dashboard Styles */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Table Styles */
+.table-responsive {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  color: var(--dark-color);
+}
+
+.table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+}
+
+.table td,
+.table th {
+  padding: 0.75rem;
+  vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+/* Filter Styles */
+.filter-form {
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 0.25rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Complaint Card Styles */
+.complaint-card {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.complaint-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Updates List Styles */
+.updates-list {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+/* Status Colors */
+.status-pending {
+  background-color: var(--warning-color);
+  color: #212529;
+}
+
+.status-in_progress {
+  background-color: var(--info-color);
+  color: #212529;
+}
+
+.status-resolved {
+  background-color: var(--success-color);
+  color: white;
+}

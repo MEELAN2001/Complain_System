@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MERO GUNASO</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>E-Governance Portal</h1>
+            </div>
+            <nav>
+                <ul>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                        {% if not user.is_superuser and not user.groups.all.0.name == 'Admins' %}
+                            <li><a href="{% url 'complaint_form' %}">Submit Complaint</a></li>
+                        {% endif %}
+                        <li><a href="{% url 'logout' %}">Logout</a></li>
+                    {% else %}
+                        <li><a href="{% url 'login' %}">Login</a></li>
+                        <li><a href="{% url 'register' %}">Register</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="message {{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 E-Governance Complaint System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="/static/js/main.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

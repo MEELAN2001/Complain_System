@@ -1,0 +1,127 @@
+<%- include('../partials/header', { dashboard: true }) %>
+
+<div class="row">
+  <div class="col-md-12 mb-3">
+    <a href="/dashboard" class="btn btn-outline-primary">
+      <i class="fas fa-arrow-left"></i> Back to Dashboard
+    </a>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card mb-4">
+      <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">Complaint Details</h4>
+      </div>
+      <div class="card-body">
+        <div class="row mb-4">
+          <div class="col-md-8">
+            <h3><%= complaint.subject %></h3>
+            <div class="d-flex align-items-center mb-3">
+              <% if (complaint.status === 'pending') { %>
+                <span class="badge bg-warning text-dark me-2">Pending</span>
+              <% } else if (complaint.status === 'in_progress') { %>
+                <span class="badge bg-info me-2">In Progress</span>
+              <% } else if (complaint.status === 'resolved') { %>
+                <span class="badge bg-success me-2">Resolved</span>
+              <% } %>
+              <span class="text-muted">Submitted on <%= new Date(complaint.created_at).toLocaleDateString() %></span>
+            </div>
+            <p><strong>Category:</strong> 
+              <% if (complaint.category === 'water') { %>Water Supply<% } %>
+              <% if (complaint.category === 'electricity') { %>Electricity<% } %>
+              <% if (complaint.category === 'roads') { %>Roads<% } %>
+              <% if (complaint.category === 'sanitation') { %>Sanitation<% } %>
+              <% if (complaint.category === 'public_transport') { %>Public Transport<% } %>
+              <% if (complaint.category === 'others') { %>Others<% } %>
+            </p>
+            <p><strong>Submitted by:</strong> <%= complaint.first_name %> <%= complaint.last_name %> (<%= complaint.username %>)</p>
+            <% if (complaint.location) { %>
+              <p><strong>Location:</strong> <%= complaint.location %></p>
+            <% } %>
+          </div>
+          <div class="col-md-4">
+            <% if (isAdmin) { %>
+              <div class="card">
+                <div class="card-header bg-light">
+                  <h5 class="mb-0">Update Status</h5>
+                </div>
+                <div class="card-body">
+                  <form action="/complaint/<%= complaint.id %>/status" method="POST">
+                    <div class="mb-3">
+                      <select class="form-select" name="status" required>
+                        <option value="pending" <%= complaint.status === 'pending' ? 'selected' : '' %>>Pending</option>
+                        <option value="in_progress" <%= complaint.status === 'in_progress' ? 'selected' : '' %>>In Progress</option>
+                        <option value="resolved" <%= complaint.status === 'resolved' ? 'selected' : '' %>>Resolved</option>
+                      </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Update Status</button>
+                  </form>
+                </div>
+              </div>
+            <% } %>
+          </div>
+        </div>
+        
+        <div class="card mb-4">
+          <div class="card-header bg-light">
+            <h5 class="mb-0">Description</h5>
+          </div>
+          <div class="card-body">
+            <p><%= complaint.description %></p>
+          </div>
+        </div>
+        
+        <% if (complaint.image_path) { %>
+          <div class="card mb-4">
+            <div class="card-header bg-light">
+              <h5 class="mb-0">Attached Image</h5>
+            </div>
+            <div class="card-body text-center">
+              <img src="<%= complaint.image_path %>" alt="Complaint Image" class="img-fluid" style="max-height: 400px;">
+            </div>
+          </div>
+        <% } %>
+        
+        <div class="card">
+          <div class="card-header bg-light">
+            <h5 class="mb-0">Updates</h5>
+          </div>
+          <div class="card-body">
+            <% if (isAdmin) { %>
+              <form action="/complaint/<%= complaint.id %>/update" method="POST" class="mb-4">
+                <div class="mb-3">
+                  <label for="comment" class="form-label">Add Update</label>
+                  <textarea class="form-control" id="comment" name="comment" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Update</button>
+              </form>
+              <hr>
+            <% } %>
+            
+            <% if (complaint.updates && complaint.updates.length > 0) { %>
+              <div class="updates-list">
+                <% complaint.updates.forEach(update => { %>
+                  <div class="card mb-3">
+                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                      <span><strong><%= update.first_name %> <%= update.last_name %></strong></span>
+                      <small class="text-muted"><%= new Date(update.created_at).toLocaleString() %></small>
+                    </div>
+                    <div class="card-body">
+                      <p class="mb-0"><%= update.comment %></p>
+                    </div>
+                  </div>
+                <% }); %>
+              </div>
+            <% } else { %>
+              <p class="text-muted">No updates yet.</p>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>
