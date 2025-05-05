@@ -1,0 +1,17 @@
+{% extends 'complaints/base.html' %}
+
+{% block content %}
+<div class="success-container">
+    <div class="success-box">
+        <h2>Complaint Submitted Successfully!</h2>
+        <div class="success-message">
+            <p>Your complaint has been submitted successfully. Our team will review it and take appropriate action.</p>
+            <p>You can track the status of your complaint from your dashboard.</p>
+        </div>
+        <div class="success-actions">
+            <a href="{% url 'complaint_form' %}" class="btn btn-primary">Submit Another Complaint</a>
+            <a href="{% url 'dashboard' %}" class="btn btn-secondary">Go to Dashboard</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

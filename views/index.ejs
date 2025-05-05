@@ -1,0 +1,44 @@
+<%- include('./partials/header') %>
+
+<div class="jumbotron bg-light p-5 rounded">
+  <h1 class="display-4">Welcome to E-Governance Portal</h1>
+  <p class="lead">A platform for citizens to submit and track complaints related to public services.</p>
+  <hr class="my-4">
+  <p>Register or login to submit your complaints and track their status.</p>
+  <div class="d-flex gap-2">
+    <a class="btn btn-primary btn-lg" href="/register" role="button">Register</a>
+    <a class="btn btn-outline-primary btn-lg" href="/login" role="button">Login</a>
+  </div>
+</div>
+
+<div class="row mt-5">
+  <div class="col-md-4">
+    <div class="card mb-4">
+      <div class="card-body text-center">
+        <i class="fas fa-file-alt fa-3x mb-3 text-primary"></i>
+        <h5 class="card-title">Submit Complaints</h5>
+        <p class="card-text">Easily submit your complaints about public services and infrastructure.</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card mb-4">
+      <div class="card-body text-center">
+        <i class="fas fa-tasks fa-3x mb-3 text-primary"></i>
+        <h5 class="card-title">Track Progress</h5>
+        <p class="card-text">Track the status of your complaints and get updates on their resolution.</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card mb-4">
+      <div class="card-body text-center">
+        <i class="fas fa-comments fa-3x mb-3 text-primary"></i>
+        <h5 class="card-title">Get Updates</h5>
+        <p class="card-text">Receive updates and communicate with authorities about your complaints.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('./partials/footer') %>

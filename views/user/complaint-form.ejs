@@ -1,0 +1,105 @@
+<%- include('../partials/header', { dashboard: true }) %>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card mb-4">
+      <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">Submit a New Complaint</h4>
+      </div>
+      <div class="card-body">
+        <form action="/complaint/new" method="POST" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="category" class="form-label">Category</label>
+            <select class="form-select" id="category" name="category" required>
+              <option value="" selected disabled>Select a category</option>
+              <option value="water">Water Supply</option>
+              <option value="electricity">Electricity</option>
+              <option value="roads">Roads</option>
+              <option value="sanitation">Sanitation</option>
+              <option value="public_transport">Public Transport</option>
+              <option value="others">Others</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="subject" class="form-label">Subject</label>
+            <input type="text" class="form-control" id="subject" name="subject" required>
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="5" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="location" class="form-label">Location (Optional)</label>
+            <input type="text" class="form-control" id="location" name="location">
+          </div>
+          <div class="mb-3">
+            <label for="image" class="form-label">Image (Optional)</label>
+            <input type="file" class="form-control" id="image" name="image" accept="image/*">
+          </div>
+          <button type="submit" class="btn btn-primary">Submit Complaint</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% if (user_complaints && user_complaints.length > 0) { %>
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0">Your Previous Complaints</h4>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Subject</th>
+                  <th>Category</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% user_complaints.forEach(complaint => { %>
+                  <tr>
+                    <td><%= complaint.subject %></td>
+                    <td>
+                      <% if (complaint.category === 'water') { %>Water Supply<% } %>
+                      <% if (complaint.category === 'electricity') { %>Electricity<% } %>
+                      <% if (complaint.category === 'roads') { %>Roads<% } %>
+                      <% if (complaint.category === 'sanitation') { %>Sanitation<% } %>
+                      <% if (complaint.category === 'public_transport') { %>Public Transport<% } %>
+                      <% if (complaint.category === 'others') { %>Others<% } %>
+                    </td>
+                    <td>
+                      <% if (complaint.status === 'pending') { %>
+                        <span class="badge bg-warning text-dark">Pending</span>
+                      <% } else if (complaint.status === 'in_progress') { %>
+                        <span class="badge bg-info">In Progress</span>
+                      <% } else if (complaint.status === 'resolved') { %>
+                        <span class="badge bg-success">Resolved</span>
+                      <% } %>
+                    </td>
+                    <td><%= new Date(complaint.created_at).toLocaleDateString() %></td>
+                    <td>
+                      <a href="/complaint/<%= complaint.id %>" class="btn btn-sm btn-primary">View</a>
+                    </td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% } else { %>
+  <div class="alert alert-info mt-4">
+    You haven't submitted any complaints yet.
+  </div>
+<% } %>
+
+<%- include('../partials/footer') %>

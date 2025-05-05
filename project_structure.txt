@@ -1,0 +1,44 @@
+e-governance-node/
+├── config/
+│   └── db.config.js
+├── controllers/
+│   ├── auth.controller.js
+│   ├── complaint.controller.js
+│   └── user.controller.js
+├── middleware/
+│   ├── auth.middleware.js
+│   └── upload.middleware.js
+├── models/
+│   ├── complaint.model.js
+│   ├── db.js
+│   └── user.model.js
+├── public/
+│   ├── css/
+│   │   ├── style.css
+│   │   └── dashboard.css
+│   ├── js/
+│   │   ├── main.js
+│   │   └── dashboard.js
+│   └── uploads/
+├── routes/
+│   ├── auth.routes.js
+│   ├── complaint.routes.js
+│   └── user.routes.js
+├── views/
+│   ├── admin/
+│   │   ├── dashboard.ejs
+│   │   └── complaint-detail.ejs
+│   ├── partials/
+│   │   ├── header.ejs
+│   │   ├── footer.ejs
+│   │   └── messages.ejs
+│   ├── user/
+│   │   ├── complaint-form.ejs
+│   │   └── complaint-success.ejs
+│   ├── index.ejs
+│   ├── login.ejs
+│   └── register.ejs
+├── .env
+├── app.js
+├── package.json
+└── server.js

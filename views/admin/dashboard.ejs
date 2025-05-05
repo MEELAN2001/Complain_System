@@ -1,0 +1,85 @@
+<%- include('../partials/header', { dashboard: true }) %>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="card mb-4">
+      <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">Admin Dashboard</h4>
+      </div>
+      <div class="card-body">
+        <form action="/dashboard" method="GET" class="row g-3 mb-4">
+          <div class="col-md-4">
+            <label for="status" class="form-label">Filter by Status</label>
+            <select class="form-select" id="status" name="status" onchange="this.form.submit()">
+              <option value="" <%= !status_filter ? 'selected' : '' %>>All Statuses</option>
+              <option value="pending" <%= status_filter === 'pending' ? 'selected' : '' %>>Pending</option>
+              <option value="in_progress" <%= status_filter === 'in_progress' ? 'selected' : '' %>>In Progress</option>
+              <option value="resolved" <%= status_filter === 'resolved' ? 'selected' : '' %>>Resolved</option>
+            </select>
+          </div>
+          <div class="col-md-8">
+            <label for="search" class="form-label">Search</label>
+            <div class="input-group">
+              <input type="text" class="form-control" id="search" name="search" placeholder="Search complaints..." value="<%= search_query %>">
+              <button class="btn btn-outline-secondary" type="submit">Search</button>
+            </div>
+          </div>
+        </form>
+        
+        <% if (complaints && complaints.length > 0) { %>
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Subject</th>
+                  <th>User</th>
+                  <th>Category</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% complaints.forEach(complaint => { %>
+                  <tr>
+                    <td><%= complaint.id %></td>
+                    <td><%= complaint.subject %></td>
+                    <td><%= complaint.first_name %> <%= complaint.last_name %></td>
+                    <td>
+                      <% if (complaint.category === 'water') { %>Water Supply<% } %>
+                      <% if (complaint.category === 'electricity') { %>Electricity<% } %>
+                      <% if (complaint.category === 'roads') { %>Roads<% } %>
+                      <% if (complaint.category === 'sanitation') { %>Sanitation<% } %>
+                      <% if (complaint.category === 'public_transport') { %>Public Transport<% } %>
+                      <% if (complaint.category === 'others') { %>Others<% } %>
+                    </td>
+                    <td>
+                      <% if (complaint.status === 'pending') { %>
+                        <span class="badge bg-warning text-dark">Pending</span>
+                      <% } else if (complaint.status === 'in_progress') { %>
+                        <span class="badge bg-info">In Progress</span>
+                      <% } else if (complaint.status === 'resolved') { %>
+                        <span class="badge bg-success">Resolved</span>
+                      <% } %>
+                    </td>
+                    <td><%= new Date(complaint.created_at).toLocaleDateString() %></td>
+                    <td>
+                      <a href="/complaint/<%= complaint.id %>" class="btn btn-sm btn-primary">View</a>
+                    </td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+        <% } else { %>
+          <div class="alert alert-info">
+            No complaints found.
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>
